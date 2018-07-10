@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Malini Srikantarajeurs (private) -->
+<!-- Time segment schema file that acquisition should use for generating the MSTS.xml file -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:element name="Devices">
+		<xs:annotation>
+			<xs:documentation>Stores all the device information</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Version" type="xs:int" default="1"/>
+				<xs:element name="Device" type="DeviceType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DeviceType">
+		<xs:annotation>
+			<xs:documentation>Information for each Device</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string"/>
+			<xs:element name="ModelNumber" type="xs:string"/>
+			<xs:element name="OrdinalNumber" type="xs:int"/>
+			<xs:element name="SerialNumber" type="xs:string"/>
+			<xs:element name="Type" type="xs:int"/>
+			<xs:element name="StoredDataType" type="xs:int"/>
+			<xs:element name="Delay" type="xs:double"/>
+			<xs:element name="Vendor" type="xs:int" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="DeviceID" type="xs:int" use="required"/>
+	</xs:complexType>
+</xs:schema>

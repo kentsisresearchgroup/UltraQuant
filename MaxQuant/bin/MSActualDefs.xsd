@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Malini Srikantarajeurs (private) -->
+<!-- Time segment schema file that acquisition should use for generating the MSTS.xml file -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:element name="ActualsDef">
+		<xs:annotation>
+			<xs:documentation>Stores the overall Actual Definition Information for all devices</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Version" type="xs:int" default="1"/>
+				<xs:element name="Actuals" type="ActualsType" maxOccurs="2"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ActualsType">
+		<xs:annotation>
+			<xs:documentation>Periodic/Scan Actual Type information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Actual" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DisplayName" type="xs:string"/>
+						<xs:element name="DataType" type="xs:int"/>
+						<xs:element name="DisplayFormat" type="xs:int"/>
+						<xs:element name="DisplayEffects" type="xs:int"/>
+						<xs:element name="DisplayDigits" type="xs:int"/>
+						<xs:element name="Unit" type="xs:string"/>
+						<xs:element name="Category" type="xs:string"/>
+					</xs:sequence>
+					<xs:attribute name="ActualID" type="xs:int" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Type" type="xs:int" use="required"/>
+	</xs:complexType>
+</xs:schema>

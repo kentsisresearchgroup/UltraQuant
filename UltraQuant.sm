@@ -1,0 +1,84 @@
+shell.executable("/bin/bash")
+
+singularity: "docker://mono:5.12.0.226"
+
+import os
+#Retrieve Snakemake directory
+SMDir = os.getcwd()
+
+# MaxQuant
+# PAR initializes to template parameter file unless one is provided
+MQ = SMDir + "/MaxQuant/bin/MaxQuantCmd.exe"
+PAR = SMDir + "/MaxQuant/mqpar_template.xml"
+
+### Begin User Variables
+
+# Directories
+WD = "/lila/data/kentsis/testfiles/UQ_test/"
+workdir: WD
+TMP = '/scratch/chenz4UQ'
+
+#MaxQuant
+DATABASE = "/lila/data/kentsis/testfiles/UQ_test/171003_UPX_c.fasta"
+RAW = "/lila/data/kentsis/testfiles/UQ_test/"
+THREADS = str(30)
+
+### End User Variables
+
+snakemake.utils.makedirs(TMP)
+snakemake.utils.makedirs('out/benchmarks')
+
+if os.path.exists(SMDir + "/MaxQuant/mqpar.xml") :
+    PAR = SMDir + "/MaxQuant/mqpar.xml"
+
+rule all:
+    input: "out/combined/txt/summary.txt"
+
+rule mqpar_conversion:
+    input: DATABASE
+    output: "out/mqpar.xml"
+    benchmark: "out/benchmarks/mqpar_conversion.txt"
+    log: "out/logs/mqpar_conversion.txt"
+    params: n="1", R="'span[hosts=1] rusage[mem=10]'", J="mqpar_conversion", o="out/logs/mqpar_conversion.out", eo="out/logs/mqpar_conversion.err"
+    run:
+        import os
+        raw_files = []
+        for file in os.listdir(RAW):
+            if file.endswith(".raw"):
+                raw_files.append(os.path.join(RAW, file))
+
+        with open(PAR) as oldMQPar, open(output[0],"w") as newMQPar:
+            for line in oldMQPar:
+                if '<fastaFilePath>' not in line and '<tempFolder>' not in line and '<fixedCombinedFolder>' not in line and '<numThreads>' not in line and '<string>temp</string>' not in line:
+                    newMQPar.write(line)
+                if '<FastaFileInfo>' in line:
+                    newMQPar.write("<fastaFilePath>" + DATABASE + "</fastaFilePath>\n")
+                if '<maxQuantVersion>' in line:
+                    newMQPar.write("<tempFolder>" +  TMP + "</tempFolder>\n")
+                if '<emailFromAddress>' in line:
+                    newMQPar.write("<fixedCombinedFolder>"  + os.path.dirname(os.path.abspath(output[0])) + "</fixedCombinedFolder>\n")
+                if '<pluginFolder></pluginFolder>' in line:
+                    newMQPar.write("<numThreads>"+ THREADS +"</numThreads>\n")
+                if '<filePaths>' in line:
+                    for k in range(len(raw_files)):
+                        newMQPar.write("<string>" + raw_files[k] + "</string>\n")
+                if '<experiments>' in line:
+                    for k in range(len(raw_files)-1):
+                        newMQPar.write("<string></string>\n")
+                if '<fractions>' in line:
+                    for k in range(len(raw_files)-1):
+                        newMQPar.write("<short>32767</short>\n")
+                if '<ptms>' in line:
+                    for k in range(len(raw_files)-1):
+                        newMQPar.write("<boolean>False</boolean>\n")
+                if '<paramGroupIndices>' in line:
+                    for k in range(len(raw_files)-1):
+                        newMQPar.write("<int>0</int>\n")
+
+rule maxQuant:
+    input: par = "out/mqpar.xml"
+    output: "out/combined/txt/summary.txt"
+    benchmark: "out/benchmarks/maxQuant.txt"
+    log: "out/logs/maxQuant.txt"
+    params: n=THREADS, J="MQ", R="'span[ptile=" + THREADS +  "] rusage[mem=15]'", o="out/logs/mq.out", eo="out/logs/mq.err"
+    shell: "mono {MQ} {input.par}"

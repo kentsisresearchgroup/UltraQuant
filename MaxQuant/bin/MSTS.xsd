@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Malini Srikantarajeurs (private) -->
+<!-- Time segment schema file that acquisition should use for generating the MSTS.xml file -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xs:element name="TimeSegments">
+		<xs:annotation>
+			<xs:documentation>Stores the time segment details</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Version" type="xs:int" default="1"/>
+				<xs:element name="TimeSegment" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StartTime" type="xs:double"/>
+							<xs:element name="EndTime" type="xs:double"/>
+							<xs:element name="NumOfScans" type="xs:int"/>
+							<xs:element name="FixedCycleLength" type="xs:boolean" default="false"/>
+						</xs:sequence>
+						<xs:attribute name="TimeSegmentID" type="xs:int" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- IRM Status (0 = Success, 1 - Some ions missed, 2 - All ions missed)  --> 
+				<xs:element name="IRMStatus" type="xs:int" default="0" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Malini Srikantarajeurs (private) -->
+<!-- Contents schema file for generating the contents..xml file -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.0">
+	<xs:element name="Contents">
+		<xs:annotation>
+			<xs:documentation>Stores the overall information for the data directory</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Version" type="xs:int" default="3"/>
+				<xs:element name="AcquiredTime" type="xs:dateTime"/>
+				<xs:element name="AcqStatus" type="xs:int" default="0"/>
+				<xs:element name="InstrumentName" type="xs:string"/>
+				<xs:element name="LockedMode" type="xs:int" default="0"/>
+				<xs:element name="MeasurementType" type="xs:int" default="0" minOccurs="0"/>
+				<xs:element name="SeparationTechnique" type="xs:int" default="0" minOccurs="0"/>
+				<xs:element name="TotalRunDuration" type="xs:double" default="0" minOccurs="0"/>				
+				<xs:element name="AcqSoftwareVersion" type="xs:string" default="0" minOccurs="0"/>
+				<!-- Acquisition Time should be of the US format YYYY-MM-DDTHH:MM:SS -->
+				<!-- example "2005-09-20T21:53:39" and "2005-11-20T5:53:39" -->
+				<!--AcqStatus (0 = Init / 1 = Start / 2 = End)-->
+				<!--InstrumentName - name of the instrument from Picard-->
+				<!--LockedMode (0 = False / -1 = True)-->
+				<!--MeasurementType 0 - Unknown / 1- Infusion / 2 - Chromatographic -->
+				<!--SeparationTechnique - type of separation used. Unspecified   = 0, None = 1, GC  = 2, LC = 3, CE = 4 -->
+				<!--TotalRunDuration - Total time taken for acquisition in miliseconds -->				
+				<!--AcqSoftwareVersion - Acquisition software version information like "B.05.00 B5019.0" -->
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

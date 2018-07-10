@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<crosslinks xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <crosslink title="DSS" description="Disuccinimidyl suberate" create_date="2012-07-22T19:30:51.122051+02:00" last_modified_date="2015-09-06T23:34:46.8422502+02:00" user="cox" saturated_composition="H(10) C(8) O(2)" unsaturated_composition="H(12) C(8) O(3)" specificity1="K" proteinNterm1="true" proteinCterm1="false" specificity2="K" proteinNterm2="true" proteinCterm2="false">
+      <position>notTerm</position>
+   </crosslink>
+</crosslinks>

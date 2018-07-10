@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Malini Srikantarajeurs (private) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Ed Darland (Agilent Technologies) -->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Robert Clark (Agilent Technologies) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:element name="DefaultMassCalibration">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Version" type="xs:int"/>
+				<xs:element name="DefaultCalibrations">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DefaultCalibration" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Step" type="StepType" maxOccurs="unbounded"/>
+									</xs:sequence>
+									<xs:attribute name="DefaultCalibrationID" type="xs:int" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="StepType">
+		<xs:sequence>
+			<xs:element name="CalibrationTechnique">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="ExternalReference"/>
+						<xs:enumeration value="InternalReference"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CalibrationFormula">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Traditional"/>
+						<xs:enumeration value="Polynomial"/>
+						<xs:enumeration value="OriginalFourTerm"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NumberOfCoefficients" type="xs:int"/>
+			<xs:element name="ValueUseFlags" type="xs:int"/>
+			<xs:element name="Values">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Value" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:double">
+										<xs:attribute name="Number" type="xs:int" use="required"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Number" type="xs:int" use="required"/>
+	</xs:complexType>
+</xs:schema>
