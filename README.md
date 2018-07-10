@@ -18,7 +18,7 @@ UltraQuant requires [Miniconda](https://conda.io/miniconda.html) to install the 
 UltraQuant is installed to your preferred computing environment using git clone:
 
 ```bash
-git clone https://github.com/ziningchen/UltraQuant
+git clone https://github.com/kentsisresearchgroup/UltraQuant
 ```
 
 ## Configuration
