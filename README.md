@@ -80,6 +80,7 @@ UltraQuant will execute MaxQuant, which will generate result tables in the user-
 
 * Zining Chen | zc98@cornell.edu
 * Paolo Cifani | cifanip@mskcc.org
+* John Poirier | poirierj@mskcc.org
 * Alex Kentsis | kentsisresearchgroup@gmail.com
 
 
