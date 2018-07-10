@@ -34,12 +34,13 @@ if os.path.exists(SMDir + "/MaxQuant/mqpar.xml") :
 rule all:
     input: "out/combined/txt/summary.txt"
 
+# The mqpar_conversion creates the search parameter file based on the template xml file
 rule mqpar_conversion:
     input: DATABASE
     output: "out/mqpar.xml"
     benchmark: "out/benchmarks/mqpar_conversion.txt"
     log: "out/logs/mqpar_conversion.txt"
-    params: n="1", R="'span[hosts=1] rusage[mem=10]'", J="mqpar_conversion", o="out/logs/mqpar_conversion.out", eo="out/logs/mqpar_conversion.err"
+    params: n="1", R="'span[hosts=1] rusage[mem=10]'", J="mqpc", o="out/logs/mqpar_conversion.out", eo="out/logs/mqpar_conversion.err"
     run:
         import os
         raw_files = []
@@ -75,6 +76,7 @@ rule mqpar_conversion:
                     for k in range(len(raw_files)-1):
                         newMQPar.write("<int>0</int>\n")
 
+# The maxQuant rule executes MaxQuant
 rule maxQuant:
     input: par = "out/mqpar.xml"
     output: "out/combined/txt/summary.txt"

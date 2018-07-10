@@ -1,0 +1,5 @@
+Building DAG of jobs...
+Nothing to be done.
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Complete log: /lila/home/chenz4/UltraQuant/.snakemake/log/2018-07-10T154017.776691.snakemake.log
