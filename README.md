@@ -75,3 +75,11 @@ snakemake --snakefile UltraQuant.sm --cluster \
 ### Expected Output
 
 UltraQuant will execute MaxQuant, which will generate result tables in the user-specified working directory, under "out/combined/txt/".
+
+### Authors
+
+* Zining Chen | zc98@cornell.edu
+* Paolo Cifani | cifanip@mskcc.org
+* Alex Kentsis | kentsisresearchgroup@gmail.com
+
+
