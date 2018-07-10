@@ -47,7 +47,6 @@ MaxQuant requires a database FASTA file, raw MS datasets, and a parameter file.
 
 Note: The generated MaxQuant parameters file will contain default settings to MaxQuant. To change these, you may create your own MaxQuant parameters file by executing "/MaxQuant/bin/MaxQuantGui.exe" on a Windows system. Click File > Load parameters... and load "/MaxQuant/mqpar_template.xml". Adjust the parameters. DO NOT add/remove RAW/FASTA files as this part will be filled in by UltraQuant. Finally, click File > Save parameters... and save it as "mqpar.xml" in the same directory as the template parameters. UltraQuant will automatically detect this file and use it as input for MaxQuant instead of its self-generated parameters.
 
-
 ## Running UltraQuant
 
 The below example demonstrates how to run UltraQuant on an [LSF](https://www.ibm.com/support/knowledgecenter/en/SSETD4/product_welcome_platform_lsf.html) cluster head node from within screen in case the connection to the head node is lost.
