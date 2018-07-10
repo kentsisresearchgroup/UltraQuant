@@ -53,7 +53,7 @@ This example demonstrates how to run UltraQuant on an [LSF](https://www.ibm.com/
 
 ```bash
 snakemake --snakefile UltraQuant.sm --cluster \
-"bsub -J 'myjob.{params.J}' -n {params.n} -R {params.R} -W 16:00 -o {params.o} -eo {params.eo}" \
+"bsub -J 'myjob.{params.J}' -n {params.n} -R {params.R} -W 16:00 -o 'myjob.{params.o}' -eo 'myjob.{params.eo}'" \
 --jn {rulename}.{jobid}.sj -j 50 -k --latency-wait 60 --use-singularity --singularity-args "--bind /data:/data,/lila:/lila,/scratch:/scratch" --ri
 ```
 
@@ -61,11 +61,11 @@ snakemake --snakefile UltraQuant.sm --cluster \
 
 "-n" specifies the number of requested threads.
 
-"-R" specifies the resources provided for the the job. "span[host=1]" ensures the job is ran on only one host. "rusage[mem=" indicates the memory allocated for the job. "span[ptile=" indicates the number of processors used per node. MaxQuant runs faster when it's hyperthreaded all on the same node. These values can be adjusted to fit resource constraints in another cluster environment.
+"-R" specifies the resources provided for the the job. "span[host=1]" specifies the number of nodes used for parallelization, if implemented in specific cluster environments. "rusage[mem=15]" specifies the minimum memory in GB requested per node. "span[ptile=32]" specifies the number of requested processors used per node. MaxQuant runs faster when hyperthreaded on the same node. These values can be adjusted to fit specific cluster configurations.
 
-"-o" specifies the output file.
+"-o" specifies the output file name.
 
-"-eo" specifies the error file.
+"-eo" specifies the error file name.
 
 "-W" wall time argument might need to be adjusted to account for larger datasets used in MaxQuant.
 
