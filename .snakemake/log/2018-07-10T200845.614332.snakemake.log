@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 50
+Job counts:
+	count	jobs
+	1	all
+	1	maxQuant
+	1	mqpar_conversion
+	3
+
+rule mqpar_conversion:
+    input: /lila/data/kentsis/testfiles/UQ_test/171003_UPX_c.fasta
+    output: out/mqpar.xml
+    log: out/logs/mqpar_conversion.txt
+    jobid: 2
+    benchmark: out/benchmarks/mqpar_conversion.txt
+
+Submitted job 2 with external jobid 'Job <4199208> is submitted to default queue <cpuqueue>.'.
+Finished job 2.
+1 of 3 steps (33%) done
+
+rule maxQuant:
+    input: out/mqpar.xml
+    output: out/combined/txt/summary.txt
+    log: out/logs/maxQuant.txt
+    jobid: 1
+    benchmark: out/benchmarks/maxQuant.txt
+
+Submitted job 1 with external jobid 'Job <4199209> is submitted to default queue <cpuqueue>.'.

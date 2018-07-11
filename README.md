@@ -49,8 +49,8 @@ This example demonstrates how to run UltraQuant on an [LSF](https://www.ibm.com/
 ```bash
 snakemake --snakefile UltraQuant.sm --cluster \
 "bsub -J 'myjob.{params.J}' -n {params.n} -R {params.R} -W 16:00 -o 'myjob.{params.o}' -eo 'myjob.{params.eo}'" \
---jn {rulename}.{jobid}.sj -j 50 -k --latency-wait 60 --use-singularity --singularity-args "
---bind /data:/data,/lila:/lila,/scratch:/scratch" --ri
+--jn {rulename}.{jobid}.sj -j 50 -k --latency-wait 60 --use-singularity --singularity-args \
+"--bind /data:/data,/lila:/lila,/scratch:/scratch" --ri
 ```
 
 * "-J" specifies the job name.
