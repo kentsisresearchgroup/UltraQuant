@@ -23,20 +23,23 @@ git clone https://github.com/kentsisresearchgroup/UltraQuant
 
 ## Configuration
 
-To run UltraQuant, create a copy of the Snakefile "UltraQuant.sm" and adjust the "User Variables" section.
+To run UltraQuant, create a copy of the user configuration "config.yaml" file provided and adjust the locations of files and directories.
 
 ### Directories
 
-* "WD" sets the path that will serve as the relative path for all analyses. The user should create a new directory for each dataset that contains mass spectrometry data files. In a cluster environment, this path should be accessible to all nodes.
-* "TMP" specifies the directory which MaxQuant uses for writing and reading temporary files. This can be a local scratch storage directory that is mounted locally on each node on a cluster. Alternatively this can be a directory on a high-performance network storage file system, if network access is sufficiently fast. 
+* "work_directory" sets the path that will serve as the relative path for all analyses. The user should create a new directory for each dataset that contains mass spectrometry data files. In a cluster environment, this path should be accessible to all nodes.
+* "temporary_directory" specifies the directory which MaxQuant uses for writing and reading temporary files. This can be a local scratch storage directory that is mounted locally on each node on a cluster. Alternatively this can be a directory on a high-performance network storage file system, if network access is sufficiently fast. 
 
 ### MaxQuant
 
 MaxQuant requires mass spectrometry data as RAW files, search database as FASTA file, and a parameter file.
 
-* "DATABASE" specifies the user-provided search database FASTA file.
-* "RAW" specifies the directory containing all user-provided .raw mass spectrometry data files. UltraQuant will run MaxQuant on all .raw files in this directory. To perform calculations on independent raw files, they should be organized in individual directories. 
-* "THREADS" specifies the number of computational threads used by MaxQuant.
+* "database_file" specifies the user-provided search database FASTA file.
+* "raw_directory" specifies the directory containing all user-provided .raw mass spectrometry data files. UltraQuant will run MaxQuant on all .raw files in this directory. To perform calculations on independent raw files, they should be organized in individual directories. 
+* "threads" specifies the number of computational threads used by MaxQuant.
+
+The variables below are specified in the Snakefile "UltraQuant.sm". These files are provided and should not be changed.
+
 * "MQ" specifies the MaxQuant executable file, which is provided in "/MaxQuant/bin/MaxQuantCmd.exe" as part of this container distribution. The currently provided version of MaxQuant is 1.6.2.3, including its license agreement for redistribution located in "/MaxQuant". To switch to alternate versions of MaxQuant, please update both the executable and the parameter file. 
 * "PAR" specifies the template MaxQuant parameter file, which is provided in "/MaxQuant" and is used to generate specific search parameters, including file names, locations, as well as mass spectrum processing and analysis parameters.
 
@@ -44,10 +47,10 @@ To alter the mass spectrum processing and analysis parameters, you should create
 
 ## Running UltraQuant
 
-This example demonstrates how to run UltraQuant on an [LSF](https://www.ibm.com/support/knowledgecenter/en/SSETD4/product_welcome_platform_lsf.html) cluster.
+This example demonstrates how to run UltraQuant on an [LSF](https://www.ibm.com/support/knowledgecenter/en/SSETD4/product_welcome_platform_lsf.html) cluster. You can parallelize multiple jobs by specifying separate "--configfile" arguments. 
 
 ```bash
-snakemake --snakefile UltraQuant.sm --cluster \
+snakemake --snakefile UltraQuant.sm --configfile config.yaml --cluster \
 "bsub -J 'myjob.{params.J}' -n {params.n} -R {params.R} -W 16:00 -o 'myjob.{params.o}' -eo 'myjob.{params.eo}'" \
 --jn {rulename}.{jobid}.sj -j 50 -k --latency-wait 60 --use-singularity --singularity-args \
 "--bind /data:/data,/lila:/lila,/scratch:/scratch" --ri

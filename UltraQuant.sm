@@ -14,14 +14,13 @@ PAR = SMDir + "/MaxQuant/mqpar_template.xml"
 ### Begin User Variables
 
 # Directories
-WD = "/lila/data/kentsis/testfiles/UQ_test/"
-workdir: WD
-TMP = '/scratch/chenz4UQ'
+workdir: config["directories"]["work_directory"]
+TMP = config["directories"]["temporary_directory"]
 
 #MaxQuant
-DATABASE = "/lila/data/kentsis/testfiles/UQ_test/171003_UPX_c.fasta"
-RAW = "/lila/data/kentsis/testfiles/UQ_test/"
-THREADS = str(30)
+DATABASE = config["maxquant"]["database_file"]
+RAW = config["maxquant"]["raw_directory"]
+THREADS = config["maxquant"]["threads"]
 
 ### End User Variables
 
@@ -47,15 +46,16 @@ rule mqpar_conversion:
         for file in os.listdir(RAW):
             if file.endswith(".raw"):
                 raw_files.append(os.path.join(RAW, file))
-
         with open(PAR) as oldMQPar, open(output[0],"w") as newMQPar:
             for line in oldMQPar:
-                if '<fastaFilePath>' not in line and '<tempFolder>' not in line and '<fixedCombinedFolder>' not in line and '<numThreads>' not in line and '<string>temp</string>' not in line:
+                if '<fastaFilePath>' not in line and '<tempFolder>' not in line and '<fixedCombinedFolder>' not in line and '<numThreads>' not in line and '<string>temp</string>' not in line and '<fixedSearchFolder></fixedSearchFolder>' not in line:
                     newMQPar.write(line)
                 if '<FastaFileInfo>' in line:
                     newMQPar.write("<fastaFilePath>" + DATABASE + "</fastaFilePath>\n")
                 if '<maxQuantVersion>' in line:
                     newMQPar.write("<tempFolder>" +  TMP + "</tempFolder>\n")
+                if '</fastaFilesFirstSearch>' in line:
+                    newMQPar.write("<fixedSearchFolder>" +  os.path.dirname(os.path.abspath(output[0])) + "/search" + "</fixedSearchFolder>\n")
                 if '<emailFromAddress>' in line:
                     newMQPar.write("<fixedCombinedFolder>"  + os.path.dirname(os.path.abspath(output[0])) + "</fixedCombinedFolder>\n")
                 if '<pluginFolder></pluginFolder>' in line:
@@ -82,5 +82,5 @@ rule maxQuant:
     output: "out/combined/txt/summary.txt"
     benchmark: "out/benchmarks/maxQuant.txt"
     log: "out/logs/maxQuant.txt"
-    params: n=THREADS, J="MQ", R="'span[ptile=" + THREADS +  "] rusage[mem=15]'", o="out/logs/mq.out", eo="out/logs/mq.err"
+    params: n=THREADS, J="MQ", R="'span[ptile=" + THREADS +  "] rusage[mem=10]'", o="out/logs/mq.out", eo="out/logs/mq.err"
     shell: "mono {MQ} {input.par}"

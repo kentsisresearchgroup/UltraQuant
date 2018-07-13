@@ -1,0 +1,7 @@
+directories:
+  work_directory: "/lila/data/kentsis/testfiles/UQ_test/"
+  temporary_directory: "/scratch/chenz4UQ"
+maxquant:
+  database_file: "/lila/data/kentsis/testfiles/UQ_test/171003_UPX_c.fasta"
+  raw_directory: "/lila/data/kentsis/testfiles/UQ_test/"
+  threads: "30"
